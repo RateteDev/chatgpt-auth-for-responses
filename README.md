@@ -30,8 +30,35 @@ const stream = await client.responses.create({
   instructions: "You are a helpful assistant.",
   input: [{ role: "user", content: [{ type: "input_text", text: "hello" }] }],
   stream: true,
+  store: false,
 });
 ```
+
+### マルチターン会話
+
+会話履歴を含める場合、`user` メッセージには `input_text`、`assistant` メッセージには `output_text` を使い分ける：
+
+```ts
+const stream = await client.responses.create({
+  model: "gpt-5.4-mini",
+  instructions: "You are a helpful assistant.",
+  input: [
+    { role: "user", content: [{ type: "input_text", text: "My name is Alice" }] },
+    {
+      type: "message",
+      id: "msg_prev_0",
+      role: "assistant",
+      status: "completed",
+      content: [{ type: "output_text", text: "Nice to meet you, Alice!", annotations: [] }],
+    },
+    { role: "user", content: [{ type: "input_text", text: "What is my name?" }] },
+  ],
+  stream: true,
+  store: false,
+});
+```
+
+> **注意**: `assistant` メッセージの `content` に `input_text` を使うと 400 (`"Supported values are: 'output_text' and 'refusal'"`) になる。OpenAI SDK の TypeScript 型 (`ResponseOutputMessage`) に合わせて `id`・`status`・`type: "message"` も必要。
 
 ## API
 
@@ -74,8 +101,10 @@ type ClientOptions = {
 |---|---|
 | `input` は配列必須 | 文字列ショートハンドは 400 (`"Input must be a list"`) |
 | `stream: true` 必須 | 非ストリーミングリクエストは 400 (`"Stream must be set to true"`) |
+| `store: false` 必須 | 省略または `true` は 400 (`"Store must be set to false"`) |
 | モデル制限 | 利用可能モデルは ChatGPT サブスクリプションにより制限される。`~/.codex/models_cache.json` の `slug` 一覧から選ぶこと |
 | `instructions` 必須 | top-level `instructions` を省略すると 400。`input` 配列内の `system` / `developer` ロールメッセージも 400 |
+| `assistant` メッセージの content 型 | `output_text` を使うこと。`input_text` は 400 (`"Supported values are: 'output_text' and 'refusal'"`) |
 | 必須ヘッダ | `originator: codex_cli_rs` と `ChatGPT-Account-ID` が必要（`clientOptions()` が自動付与） |
 
 ## 401 リトライの実装例
