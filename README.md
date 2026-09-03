@@ -10,6 +10,31 @@ ChatGPT サブスクリプション（Plus / Pro）の OAuth トークンで [Op
 bun add github:RateteDev/chatgpt-auth-for-responses
 ```
 
+グローバルに `imagegen` コマンドを入れる場合：
+
+```bash
+bun add -g github:RateteDev/chatgpt-auth-for-responses
+```
+
+## CLI（imagegen）
+
+`bun add -g` でインストールすると `imagegen` コマンドが使える。Codex 画像生成エンドポイントを呼び、PNG を保存してパス（`--json` で JSON）を出力する。
+
+```bash
+imagegen "a red fox in a sunlit meadow" --output ./fox.png --json
+```
+
+| オプション | 説明 |
+|---|---|
+| `--model <slug>` | 画像モデル（既定: `gpt-image-2`） |
+| `--size <size>` | サイズ例 `1024x1536`（既定: `auto`） |
+| `--quality <q>` | `low`/`medium`/`high`/`auto`（既定: `auto`） |
+| `--background <bg>` | `transparent`/`opaque`/`auto`（既定: `auto`） |
+| `--n <count>` | 生成枚数 |
+| `--output <path>` | 保存先（既定: `./generated_images/imagegen-<ts>.png`） |
+| `--auth-file <path>` | `auth.json` パス（既定: `~/.codex/auth.json`） |
+| `--json` | パス等を機械可読JSONで出力 |
+
 ## 使い方
 
 ```ts
