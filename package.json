@@ -9,6 +9,9 @@
       "types": "./src/index.ts"
     }
   },
+  "bin": {
+    "imagegen": "./src/cli.ts"
+  },
   "files": ["src"],
   "devDependencies": {
     "@biomejs/biome": "^2.4.15",
