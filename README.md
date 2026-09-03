@@ -1,6 +1,6 @@
 # chatgpt-auth-for-responses
 
-ChatGPT サブスクリプション（Plus / Pro）の OAuth トークンで [OpenAI Responses API](https://platform.openai.com/docs/api-reference/responses) を利用するための認証管理ライブラリ。
+ChatGPT サブスクリプション（Plus / Pro）の OAuth トークンで [OpenAI Responses API](https://platform.openai.com/docs/api-reference/responses) および Codex 画像生成エンドポイントを利用するための認証管理ライブラリ。
 
 > **注意**: 公式 OpenAI API ではなく、Codex CLI が利用するプライベートエンドポイント (`https://chatgpt.com/backend-api/codex`) を対象としています。Codex CLI 側の仕様変更で予告なく壊れる可能性があります。プロダクション利用は非推奨です。
 
@@ -59,6 +59,42 @@ const stream = await client.responses.create({
 ```
 
 > **注意**: `assistant` メッセージの `content` に `input_text` を使うと 400 (`"Supported values are: 'output_text' and 'refusal'"`) になる。OpenAI SDK の TypeScript 型 (`ResponseOutputMessage`) に合わせて `id`・`status`・`type: "message"` も必要。
+
+## 画像生成
+
+Codex のプライベート画像生成エンドポイントも同じ認証基盤から利用できる。`createCodexImagesClient` が `clientOptions()` の認証を再利用し、`/images/generations`（生成）と `/images/edits`（編集）へ `fetch` で直接アクセスする。OpenAI SDK は不要。
+
+```ts
+import { createCodexAuth, createCodexImagesClient } from "chatgpt-auth-for-responses";
+
+const auth = createCodexAuth({ authFile: "/home/user/.codex/auth.json" });
+const images = createCodexImagesClient(auth);
+
+const response = await images.generate({ prompt: "a red fox in a sunlit meadow" });
+const png = Buffer.from(response.data[0]!.b64_json, "base64");
+```
+
+既定値は Codex CLI の内蔵 `image_gen` ツールに合わせている（`model: "gpt-image-2"`、`background` / `quality` / `size` は `"auto"`）。`auto` はサーバー側で解決され、2026-09-03 の実測では `size=1402x1122` / `quality=low` になった。
+
+| パラメータ | 型 | 既定 | 説明 |
+|---|---|---|---|
+| `prompt` | `string` | 必須 | 生成プロンプト |
+| `model` | `string` | `"gpt-image-2"` | 他の画像モデル slug を指定可能 |
+| `background` | `"transparent"\\|"opaque"\\|"auto"` | `"auto"` | 透過 / 不透明背景 |
+| `quality` | `"low"\\|"medium"\\|"high"\\|"auto"` | `"auto"` | 生成品質 |
+| `size` | `string` | `"auto"` | `"1024x1536"` 等のサイズ指定 |
+| `n` | `number` | 省略 | 生成枚数 |
+
+### `createCodexImagesClient(auth)`
+
+`CodexAuth` を受け取り `CodexImagesClient` を返す。
+
+| メソッド | 説明 |
+|---|---|
+| `generate(request)` | `POST /images/generations` を実行し `ImageResponse` を返す |
+| `edit(request)` | `POST /images/edits` を実行し `ImageResponse` を返す |
+
+`ImageResponse.data` は `{ b64_json: string }[]`。`b64_json` を Base64 デコードしてファイルへ書き出す。
 
 ## API
 

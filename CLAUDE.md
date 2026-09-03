@@ -18,21 +18,24 @@ ChatGPT サブスクリプション（Plus / Pro）の OAuth トークンで Ope
 src/
   index.ts        — public barrel export
   auth.ts         — createCodexAuth factory
+  images.ts       — createCodexImagesClient + 画像型
   jwt.ts          — JWT decode / expiry check / account ID extraction
   refresh.ts      — OAuth token refresh
   auth-file.ts    — auth.json read / write
-  constants.ts    — endpoint URL, OAuth client ID, etc.
+  constants.ts    — endpoint URL, OAuth client ID, image paths, model slug 等
   types.ts        — public type definitions
 tests/unit/
   jwt.test.ts
   refresh.test.ts
   auth.test.ts
+  images.test.ts
 ```
 
 ## 公開 API
 
 ```ts
 function createCodexAuth(options: { authFile: string }): CodexAuth;
+function createCodexImagesClient(auth: CodexAuth): CodexImagesClient;
 
 type CodexAuth = {
   resolveAccessToken(): Promise<string>;
@@ -44,6 +47,11 @@ type ClientOptions = {
   baseURL: string;
   headers: Record<string, string>;
   accessToken: string;
+};
+
+type CodexImagesClient = {
+  generate(request: ImageGenerationRequest): Promise<ImageResponse>;
+  edit(request: ImageEditRequest): Promise<ImageResponse>;
 };
 ```
 
