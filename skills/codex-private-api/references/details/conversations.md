@@ -1,6 +1,8 @@
 # 会話履歴を送る
 
-過去の `user` メッセージには `input_text`、過去の `assistant` メッセージには `output_text` を使います。`assistant` の `content` を `input_text` にすると400になります。SDKの `ResponseOutputMessage` 型に合わせ、`id`、`status`、`type` も付けます。
+会話履歴では、過去の `user` メッセージに `input_text`、過去の `assistant` メッセージに `output_text` を使います。`assistant` に `input_text` を渡すと400になります。
+
+`assistant` メッセージには、SDKの `ResponseOutputMessage` 型に合わせて `id`、`status`、`type` も付けます。
 
 ```ts
 const stream = await client.responses.create({
