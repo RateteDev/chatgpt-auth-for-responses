@@ -1,8 +1,8 @@
 # 認証
 
-`createCodexAuth({ authFile })` に `codex --login` が生成した `auth.json` のパスを渡します。ライブラリはアクセストークンの期限が近いときに更新し、更新結果を認証ファイルへ保存します。パスは呼び出し側が明示します。
+`codex --login` で認証ファイルを用意し、そのパスを `createCodexAuth({ authFile })` に渡します。アクセストークンの期限が近ければ、ライブラリが更新して認証ファイルへ保存します。
 
-`clientOptions()` は `baseURL`、`headers`、`accessToken` を返します。OpenAI SDKを使う場合、`accessToken` を `apiKey` に、`headers` を `defaultHeaders` に渡します。`headers` に `Authorization` は含まれません。画像クライアントは同じ認証オブジェクトから必要なヘッダーを組み立てます。
+OpenAI SDKを使うときは、`clientOptions()` が返す `accessToken` を `apiKey` に、`headers` を `defaultHeaders` に渡します。`Authorization` は `headers` に含まれません。
 
 ```ts
 import { createCodexAuth } from "chatgpt-auth-for-responses";
@@ -13,4 +13,6 @@ const { baseURL, headers, accessToken } = await auth.clientOptions();
 const client = new OpenAI({ apiKey: accessToken, baseURL, defaultHeaders: headers });
 ```
 
-必要なアカウントIDはトークンから取得してヘッダーへ入れます。認証ファイルの値やHTTP認証ヘッダーは表示しません。401への対応は [troubleshooting.md](troubleshooting.md) を参照してください。
+アカウントIDはライブラリがトークンから取得し、必要なヘッダーに加えます。画像APIでも同じ認証オブジェクトを使えます。
+
+認証ファイルの中身や認証ヘッダーは表示しないでください。401が返った場合は [エラー対応](troubleshooting.md) を参照します。

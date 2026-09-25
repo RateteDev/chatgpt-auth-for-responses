@@ -1,6 +1,6 @@
 # Responses API
 
-このライブラリは認証情報を提供します。Responses APIへのリクエストは呼び出し側が組み立てます。OpenAIの公開APIと同じ入力が通るとは限りません。
+このライブラリが扱うのは認証です。Responses APIへのリクエストは呼び出し側で組み立てます。公開APIと入力の条件が異なるので、次の指定を含めてください。
 
 ```ts
 const stream = await client.responses.create({
@@ -12,10 +12,11 @@ const stream = await client.responses.create({
 });
 ```
 
-- `input` は配列にします。文字列だけを渡すと400です。
-- `stream: true` と `store: false` を指定します。どちらも省略時は400です。
-- top-levelの `instructions` を指定します。`input` 内の `system`・`developer` ロールは使えません。
-- 利用できるモデルは契約によって異なります。Codex CLIのモデル一覧で確認してください。
-- 過去の `assistant` メッセージは `output_text` を使います。会話履歴の型と例は [details/conversations.md](details/conversations.md) を参照してください。
+- `input` は配列で渡します。文字列だけだと400になります。
+- `stream: true` と `store: false` を指定します。省略すると400になります。
+- `instructions` はリクエストのトップレベルに置きます。`input` 内で `system` や `developer` ロールを使うと400になります。
+- 利用できるモデルは契約によって異なります。Codex CLIのモデル一覧で確認します。
 
-これらは非公開エンドポイントで観測された制約です。400を調べるときは、応答で示されたフィールドと実際のリクエストを突き合わせてください。
+会話履歴を送る場合は、過去の `assistant` メッセージの形式にも注意が必要です。[会話履歴の例](details/conversations.md) を参照してください。
+
+400が返ったら、応答で指摘された項目と送信したリクエストを照らし合わせます。
