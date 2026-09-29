@@ -1,7 +1,11 @@
 <p align="center">
   <br>
   <br>
-  <img src="assets/logo.png" alt="吹き出しと鍵穴を組み合わせたロゴ" height="120">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/logo-light.svg">
+    <img src="assets/logo-light.svg" alt="chatgpt-auth-for-responses のロゴ" width="400">
+  </picture>
   <br>
 </p>
 <p align="center">
