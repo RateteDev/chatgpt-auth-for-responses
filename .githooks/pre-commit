@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Repository-wide invariants belong to no app, so path filters cannot select
+# them. The same recipe also runs in local and remote CI.
+just repo-checks
+
+# The whole repository is the package, so any staged change is in its scope.
+just check

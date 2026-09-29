@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+msg_file="$1"
+subject="$(sed -n '1p' "$msg_file")"
+char_count="$(wc -m < "$msg_file")"
+
+# The hook is the only part of the convention that travels with the repository,
+# so every message it prints must stand on its own. The skill is named as a
+# pointer to the rationale, never as something the reader must have on hand.
+fail() {
+    printf 'commit-msg: %s\n' "$1" >&2
+    shift
+    for line in "$@"; do
+        printf '  %s\n' "$line" >&2
+    done
+    printf '  the form above is what this hook enforces; the commit-convention skill holds the rationale\n' >&2
+    exit 1
+}
+
+if [ -f "$(git rev-parse --git-path MERGE_HEAD)" ]; then
+    subject_pattern='^.+ をマージ: .+$'
+    subject_form='{branch} をマージ: {概要}'
+    required_headings=("## サマリー" "## 含まれる変更" "## 残課題")
+else
+    subject_pattern='^\[[^]]+\](feat|fix|refactor|docs|chore): .+$'
+    subject_form='[{scope}]{feat|fix|refactor|docs|chore}: {概要}'
+    required_headings=("## 背景" "## 方針" "## 効果・影響")
+fi
+
+if ! [[ "$subject" =~ $subject_pattern ]]; then
+    fail "subject does not match the required format" \
+        "got:      ${subject}" \
+        "expected: ${subject_form}"
+fi
+
+for heading in "${required_headings[@]}"; do
+    if ! grep -qF "$heading" "$msg_file"; then
+        fail "missing required heading '${heading}' in body" \
+            "the body must carry, in order: ${required_headings[0]} / ${required_headings[1]} / ${required_headings[2]}"
+    fi
+done
+
+# Prose is one sentence per line, closed by a full stop. Only headings (the
+# subject and '#' lines), blank lines, fenced code and table rows are exempt.
+# Wrapping by column count breaks sentences mid-way and is what this forbids.
+line_no=0
+in_fence=0
+while IFS= read -r line || [ -n "$line" ]; do
+    line_no=$((line_no + 1))
+    [ "$line_no" -eq 1 ] && continue
+    line="${line%"${line##*[![:space:]]}"}"
+    case "$line" in
+        '') continue ;;
+        '```'*) in_fence=$((1 - in_fence)); continue ;;
+        '#'*|'|'*) continue ;;
+    esac
+    [ "$in_fence" -eq 1 ] && continue
+    case "$line" in
+        *。) ;;
+        *) fail "body line ${line_no} does not end with '。'" \
+            "got: ${line}" \
+            "write one sentence per line and close it with '。'; do not wrap by column count" ;;
+    esac
+done < "$msg_file"
+
+limit=600
+if [ "$char_count" -gt "$limit" ]; then
+    fail "message is ${char_count} chars, exceeds the ${limit} char limit" \
+        "do not shave connectives/particles or paraphrase to fit; cut low-priority information instead"
+fi
+
+exit 0

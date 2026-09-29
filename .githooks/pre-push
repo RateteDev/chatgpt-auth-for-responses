@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# pre-push hook is intentionally empty.
+# CI is handled by remote (GitHub Actions).
+# Run `just ci` locally after significant changes.

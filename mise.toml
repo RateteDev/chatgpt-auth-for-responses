@@ -1,0 +1,9 @@
+# Every toolchain version this repository pins lives here, and nothing else
+# declares one. Remote CI installs from this same file through jdx/mise-action,
+# so a bump is a single edit and the local and CI toolchains cannot drift apart.
+#
+# just is always present: the conventions route every check through a recipe,
+# so CI needs it whatever the repository is written in.
+[tools]
+just = "1.58.0"
+bun = "1.4.0"
