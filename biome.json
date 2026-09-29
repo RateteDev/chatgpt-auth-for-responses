@@ -12,7 +12,7 @@
   },
   "linter": {
     "enabled": true,
-    "rules": { "recommended": true }
+    "rules": { "preset": "recommended" }
   },
   "javascript": {
     "formatter": { "quoteStyle": "double", "semicolons": "always" }
