@@ -1,0 +1,28 @@
+{
+  "name": "@ratetedev/imagegen",
+  "version": "0.1.0",
+  "description": "Codex CLIの認証で、ChatGPTの画像APIから画像を生成・編集するCLI",
+  "keywords": ["codex", "chatgpt", "image-generation", "cli", "bun"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RateteDev/chatgpt-auth-for-responses.git",
+    "directory": "packages/imagegen"
+  },
+  "homepage": "https://github.com/RateteDev/chatgpt-auth-for-responses#readme",
+  "bugs": "https://github.com/RateteDev/chatgpt-auth-for-responses/issues",
+  "type": "module",
+  "bin": {
+    "imagegen": "./src/cli.ts"
+  },
+  "files": ["src"],
+  "engines": {
+    "bun": ">=1.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "dependencies": {
+    "@ratetedev/chatgpt-auth-for-responses": "workspace:^"
+  }
+}

@@ -12,7 +12,7 @@ setup:
 # Remove installed dependencies and generated build artifacts
 [group('Setup & Clean')]
 clean:
-    rm -rf node_modules dist coverage
+    rm -rf node_modules packages/*/node_modules dist coverage
 
 # ─── Quality ───
 

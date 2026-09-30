@@ -1,0 +1,28 @@
+{
+  "name": "@ratetedev/chatgpt-auth-for-responses",
+  "version": "0.1.0",
+  "description": "Codex CLIの認証で、ChatGPTの非公開Responses APIと画像APIをBunから呼ぶライブラリ",
+  "keywords": ["codex", "chatgpt", "responses-api", "image-generation", "auth", "bun"],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RateteDev/chatgpt-auth-for-responses.git",
+    "directory": "packages/chatgpt-auth-for-responses"
+  },
+  "homepage": "https://github.com/RateteDev/chatgpt-auth-for-responses#readme",
+  "bugs": "https://github.com/RateteDev/chatgpt-auth-for-responses/issues",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "import": "./src/index.ts"
+    }
+  },
+  "files": ["src"],
+  "engines": {
+    "bun": ">=1.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

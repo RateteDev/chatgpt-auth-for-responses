@@ -1,9 +1,8 @@
 #!/usr/bin/env bun
 
 import { resolve } from "node:path";
-import { createCodexAuth } from "./auth.ts";
+import { createCodexAuth, createCodexImagesClient } from "@ratetedev/chatgpt-auth-for-responses";
 import { parseArgs, readReferenceImages, saveImages } from "./cli-support.ts";
-import { createCodexImagesClient } from "./images.ts";
 
 const USAGE = `imagegen <prompt> [options]
 

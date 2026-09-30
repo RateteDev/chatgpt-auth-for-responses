@@ -1,7 +1,11 @@
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, extname, resolve } from "node:path";
-import type { ImageBackground, ImageData, ImageQuality } from "./images.ts";
+import type {
+  ImageBackground,
+  ImageData,
+  ImageQuality,
+} from "@ratetedev/chatgpt-auth-for-responses";
 
 export type Args = {
   prompt: string;
