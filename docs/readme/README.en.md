@@ -13,6 +13,10 @@
   <a href="../../LICENSE"><img src="https://img.shields.io/badge/license-MIT-2EA44F" alt="License: MIT"></a>
 </p>
 <p align="center">
+  <a href="https://www.npmjs.com/package/@ratetedev/imagegen"><img src="https://img.shields.io/npm/v/@ratetedev/imagegen?label=imagegen&color=CB3837&logo=npm" alt="Version: @ratetedev/imagegen"></a>
+  <a href="https://www.npmjs.com/package/@ratetedev/chatgpt-auth-for-responses"><img src="https://img.shields.io/npm/v/@ratetedev/chatgpt-auth-for-responses?label=library&color=CB3837&logo=npm" alt="Version: @ratetedev/chatgpt-auth-for-responses"></a>
+</p>
+<p align="center">
   <a href="../../README.md">日本語</a> ・ English
 </p>
 <br/>
@@ -26,6 +30,8 @@ Use ChatGPT's private API from Bun with your Codex CLI authentication.
 - 🧩 Library for the Responses API and the image API
 - 🤖 Bundles two agent skills
 
+It does not run on Node.js. Bun is required.
+
 ## Generate an image
 
 You need Bun and the Codex CLI.
@@ -34,7 +40,7 @@ You need Bun and the Codex CLI.
 # Log in with the Codex CLI (saves the auth file to ~/.codex/auth.json)
 codex login
 # Install the image generation command
-bun add -g github:RateteDev/chatgpt-auth-for-responses
+bun add -g @ratetedev/imagegen
 # Generate an image with the image API (saved to generated_images/ unless --output is given)
 imagegen "a cat under a blue sky"
 ```
@@ -43,7 +49,7 @@ imagegen "a cat under a blue sky"
 
 ```sh
 # Install the library for the Responses API and the image API
-bun add github:RateteDev/chatgpt-auth-for-responses
+bun add @ratetedev/chatgpt-auth-for-responses
 ```
 
 See the [Codex private API skill](../../skills/codex-private-api/SKILL.md) for authentication and API constraints.

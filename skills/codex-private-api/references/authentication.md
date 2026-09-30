@@ -5,7 +5,7 @@
 OpenAI SDKを使うときは、`clientOptions()` が返す `accessToken` を `apiKey` に、`headers` を `defaultHeaders` に渡します。`Authorization` は `headers` に含まれません。
 
 ```ts
-import { createCodexAuth } from "chatgpt-auth-for-responses";
+import { createCodexAuth } from "@ratetedev/chatgpt-auth-for-responses";
 import OpenAI from "openai";
 
 const auth = createCodexAuth({ authFile: "/path/to/.codex/auth.json" });

@@ -5,7 +5,7 @@ description: Codexの認証を使ってChatGPTの非公開Responses APIや画像
 
 # Codex非公開API
 
-このリポジトリのライブラリを使ってAPI連携を作るときは、必要な項目から読んでください。
+`@ratetedev/chatgpt-auth-for-responses` を使ってAPI連携を作るときは、必要な項目から読んでください。
 
 | 知りたいこと | 参照先 |
 |---|---|

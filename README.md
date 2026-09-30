@@ -13,6 +13,10 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-2EA44F" alt="ライセンス: MIT"></a>
 </p>
 <p align="center">
+  <a href="https://www.npmjs.com/package/@ratetedev/imagegen"><img src="https://img.shields.io/npm/v/@ratetedev/imagegen?label=imagegen&color=CB3837&logo=npm" alt="バージョン: @ratetedev/imagegen"></a>
+  <a href="https://www.npmjs.com/package/@ratetedev/chatgpt-auth-for-responses"><img src="https://img.shields.io/npm/v/@ratetedev/chatgpt-auth-for-responses?label=library&color=CB3837&logo=npm" alt="バージョン: @ratetedev/chatgpt-auth-for-responses"></a>
+</p>
+<p align="center">
   日本語 ・ <a href="docs/readme/README.en.md">English</a>
 </p>
 <br/>
@@ -26,6 +30,8 @@ Codex CLIの認証で、ChatGPTの非公開APIをBunから使う。
 - 🧩 Responses API・画像API向けライブラリ
 - 🤖 エージェントスキルを2つ同梱
 
+Node.jsでは動きません。Bunが必要です。
+
 ## 画像を作る
 
 BunとCodex CLIが必要です。
@@ -34,7 +40,7 @@ BunとCodex CLIが必要です。
 # Codex CLIでログインする（~/.codex/auth.json に認証ファイルが保存される）
 codex login
 # 画像生成コマンドを導入する
-bun add -g github:RateteDev/chatgpt-auth-for-responses
+bun add -g @ratetedev/imagegen
 # 画像APIで画像を生成する（--output 未指定なら generated_images/ へ保存）
 imagegen "青空の下の猫"
 ```
@@ -43,7 +49,7 @@ imagegen "青空の下の猫"
 
 ```sh
 # Responses API・画像API向けライブラリを導入する
-bun add github:RateteDev/chatgpt-auth-for-responses
+bun add @ratetedev/chatgpt-auth-for-responses
 ```
 
 認証やAPIの制約は[Codex非公開APIスキル](skills/codex-private-api/SKILL.md)で確認できます。

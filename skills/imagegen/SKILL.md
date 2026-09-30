@@ -7,7 +7,7 @@ description: Codexの画像生成エンドポイントで写真やイラスト�
 
 写真やイラストを作るときは `imagegen` を使います。手元の画像を参考にするなら `--reference <画像パス>` で渡してください。複数枚ある場合は、画像ごとに指定します。
 
-コマンドがなければ `bun add -g github:RateteDev/chatgpt-auth-for-responses` で導入します。認証ファイルは `codex login` で用意します。引数は実行前に `imagegen --help` で確認してください。
+コマンドがなければ `bun add -g @ratetedev/imagegen` で導入します。認証ファイルは `codex login` で用意します。引数は実行前に `imagegen --help` で確認してください。
 
 被写体、構図、光、色調、スタイルをプロンプトに書きます。参照画像を使う場合は、残す部分と変える部分も伝えてください。異なる案を作るときは、案ごとにプロンプトを変えて実行します。
 
