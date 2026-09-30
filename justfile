@@ -32,11 +32,35 @@ fix:
 test:
     bun test
 
-# Run the package CI (install from the lockfile, then check and test)
+# Check that each packed npm tarball omits tests and resolves workspace: dependencies
+[group('Quality')]
+pack-check:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    tmp="$(mktemp -d)"
+    trap 'rm -rf "$tmp"' EXIT
+    status=0
+    for dir in packages/*/; do
+        (cd "$dir" && bun pm pack --destination "$tmp" >/dev/null)
+    done
+    for tgz in "$tmp"/*.tgz; do
+        if tar -tzf "$tgz" | grep -Eq '(^|/)(tests?/|[^/]*\.test\.[cm]?[jt]s$)'; then
+            echo "error: $(basename "$tgz") contains test files" >&2
+            status=1
+        fi
+        if tar -xzOf "$tgz" package/package.json | grep -q '"workspace:'; then
+            echo "error: $(basename "$tgz") still has a workspace: dependency" >&2
+            status=1
+        fi
+    done
+    exit "$status"
+
+# Run the package CI (install from the lockfile, then check, pack-check and test)
 [group('Quality')]
 ci:
     bun install --frozen-lockfile
     just check
+    just pack-check
     just test
 
 # ─── CI ───
